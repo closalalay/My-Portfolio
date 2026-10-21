@@ -129,3 +129,75 @@
 
 </body>
 </html>
+
+public class BankAccount {
+
+    // Private fields: hidden from outside classes (encapsulation)
+    private final String accountNumber; // final: assigned once, never changes
+    private String clientName;
+    private double balance;
+
+    // Constructor
+    public BankAccount(String accountNumber, String clientName, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.clientName = clientName;
+        this.balance = Math.max(initialBalance, 0);
+    }
+
+    // Getters
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    // Setter for client name (account number and balance have no setters;
+    // balance only changes via deposit/withdraw)
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    // Deposit money
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid deposit amount.");
+            return;
+        }
+        balance += amount;
+        System.out.println("Deposited: " + amount);
+    }
+
+    // Withdraw money
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount.");
+        } else if (amount > balance) {
+            System.out.println("Insufficient funds.");
+        } else {
+            balance -= amount;
+            System.out.println("Withdrew: " + amount);
+        }
+    }
+
+    // Display balance
+    public void displayBalance() {
+        System.out.println("Account No: " + accountNumber
+                + " | Client: " + clientName
+                + " | Balance: " + balance);
+    }
+
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("1001-2345-67", "Juan Dela Cruz", 1000);
+        account.displayBalance();
+        account.deposit(500);
+        account.withdraw(300);
+        account.withdraw(5000);
+        account.displayBalance();
+    }
+}
